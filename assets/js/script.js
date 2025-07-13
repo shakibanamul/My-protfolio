@@ -84,7 +84,7 @@ async function fetchData(type = "skills") {
     type === "skills" ?
         response = await fetch("skills.json")
         :
-        response = await fetch("./projects/projects.json")
+        response = await fetch("/projects/projects.json")
     const data = await response.json();
     return data;
 }
@@ -107,10 +107,10 @@ function showSkills(skills) {
 function showProjects(projects) {
     let projectsContainer = document.querySelector("#work .box-container");
     let projectHTML = "";
-    projects.slice(0, 10).filter(project => project.category != "android").forEach(project => {
+    projects.slice(0, 6).forEach(project => {
         projectHTML += `
         <div class="box tilt">
-      <img draggable="false" src="/assets/images/projects/${project.image}.png" alt="project" />
+      <img draggable="false" src="/assets/images/projects/${project.image}.png" alt="${project.name}" onerror="this.src='https://via.placeholder.com/400x300?text=Project+Image'" />
       <div class="content">
         <div class="tag">
         <h3>${project.name}</h3>
@@ -118,8 +118,8 @@ function showProjects(projects) {
         <div class="desc">
           <p>${project.desc}</p>
           <div class="btns">
-            <a href="${project.links.view}" class="btn" target="_blank"><i class="fas fa-eye"></i> View</a>
-            <a href="${project.links.code}" class="btn" target="_blank">Code <i class="fas fa-code"></i></a>
+            <a href="${project.links.view}" class="btn" target="_blank" ${!project.links.view || project.links.view === '#' ? 'style="pointer-events: none; opacity: 0.5;"' : ''}><i class="fas fa-eye"></i> View</a>
+            <a href="${project.links.code}" class="btn" target="_blank" ${!project.links.code || project.links.code === '#' ? 'style="pointer-events: none; opacity: 0.5;"' : ''}>Code <i class="fas fa-code"></i></a>
           </div>
         </div>
       </div>
